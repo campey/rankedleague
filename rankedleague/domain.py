@@ -59,12 +59,21 @@ class ResultsFile():
                 line = line.strip()
                 if line:
                     team1_part, team2_part = line.split(',')
+                    if not team1_part or not team2_part:
+                        raise ValueError(f"Invalid line: {line}")
                     team1_name, score1_str = team1_part.rsplit(' ', 1)
+                    if not team1_name or not score1_str:
+                        raise ValueError(f"Invalid line: {line}")
                     team2_name, score2_str = team2_part.rsplit(' ', 1)
+                    if not team2_name or not score2_str:
+                        raise ValueError(f"Invalid line: {line}")
+                    try:
+                        score1 = int(score1_str.strip())
+                        score2 = int(score2_str.strip())
+                    except ValueError:
+                        raise ValueError(f"Invalid score: {score1_str} or {score2_str}")
                     team1 = Team(team1_name.strip())
-                    score1 = int(score1_str.strip())
                     team2 = Team(team2_name.strip())
-                    score2 = int(score2_str.strip())
                     result = Result(team1, score1, team2, score2)
                     results.append(result)
         return results
