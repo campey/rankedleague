@@ -33,3 +33,31 @@ class Result:
             return self.team2
         else:
             return None
+        
+    def loser(self): #todo: refactor to remove duplication with winner()
+        if self.score1 < self.score2:
+            return self.team1
+        elif self.score2 < self.score1:
+            return self.team2
+        else:
+            return None
+    
+    def league_points(self):
+        winner = self.winner()
+        if winner:
+            return (LeaguePoints(winner, 3), LeaguePoints(self.loser(), 0))
+        else:
+            return (LeaguePoints(self.team1, 1), LeaguePoints(self.team2, 1))
+            
+
+        
+class LeaguePoints:
+    def __init__(self, Team: Team, points: int):
+        self.team = Team
+        self.points = points
+    
+    def __eq__(self, value):
+        if not isinstance(value, LeaguePoints):
+            return False
+        return self.team == value.team and self.points == value.points
+    

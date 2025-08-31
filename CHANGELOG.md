@@ -14,9 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.2] - 2025-08-31
  * create Result model
+ * calculate LeaguePoints for Result
 
 ## WIP
- * Calculate league points for result
+ * None
 
 ## Todo
  * League table, adding results, ordering
@@ -25,3 +26,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Maybes
  * also support stdin/stdout
+ * move leaguepoints logic into leaguepoints class

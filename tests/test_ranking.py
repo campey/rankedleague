@@ -1,4 +1,4 @@
-from rankedleague.rankedleague.domain import Team, Result
+from rankedleague.rankedleague.domain import Team, Result, LeaguePoints
 
 def test_team_init():
     team = Team("Lions")
@@ -50,6 +50,7 @@ def test_result_draw():
     team2 = Team("Grouches")
     result = Result(team1, 2, team2, 2)
     assert result.winner() is None 
+    assert result.loser() is None
 
 def test_result_negative_score():
     team1 = Team("Lions")
@@ -60,6 +61,27 @@ def test_result_negative_score():
     except ValueError as e:
         assert str(e) == "Scores must be non-negative"
 
+
+def test_league_points_equality():
+    team1 = Team("Lions")
+    lp1 = LeaguePoints(team1, 3)
+    lp2 = LeaguePoints(team1, 3)
+    lp3 = LeaguePoints(team1, 0)
+    assert lp1 == lp2
+
+def test_league_points_inequality():
+    team1 = Team("Lions")   
+    lp1 = LeaguePoints(team1, 3)
+    lp2 = LeaguePoints(team1, 0)    
+    assert lp1 != lp2  
+
+def test_league_points_not_the_same_as_result():
+    team1 = Team("Lions")
+    lp1 = LeaguePoints(team1, 3)
+    team2 = Team("Grouches")
+    result = Result(team1, 3, team2, 1)
+    assert lp1 != result
+
 def test_result_league_points_home_win():
     team1 = Team("Lions")
     team2 = Team("Grouches")
@@ -67,5 +89,29 @@ def test_result_league_points_home_win():
     team1_expected_points = LeaguePoints(team1, 3)
     team2_expected_points = LeaguePoints(team2, 0)
 
-    assert result.league_points().contains(team1_expected_points)
-    assert result.league_points().contains(team2_expected_points)
+    league_points = result.league_points()
+    assert team1_expected_points in league_points
+    assert team2_expected_points in league_points
+
+def test_result_league_points_away_win():
+    team1 = Team("Lions")
+    team2 = Team("Grouches")
+    result = Result(team1, 1, team2, 4)
+    team1_expected_points = LeaguePoints(team1, 0)
+    team2_expected_points = LeaguePoints(team2, 3)
+
+    league_points = result.league_points()
+    assert team1_expected_points in league_points
+    assert team2_expected_points in league_points
+
+def test_result_league_points_draw():
+    team1 = Team("Lions")
+    team2 = Team("Grouches")
+    result = Result(team1, 2, team2, 2)
+    team1_expected_points = LeaguePoints(team1, 1)
+    team2_expected_points = LeaguePoints(team2, 1)
+
+    league_points = result.league_points()
+    assert team1_expected_points in league_points
+    assert team2_expected_points in league_points
+
