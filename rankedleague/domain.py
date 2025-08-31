@@ -60,4 +60,25 @@ class LeaguePoints:
         else:
             return (LeaguePoints(result.team1, 1), LeaguePoints(result.team2, 1))           
 
-    
+
+class LeagueTable:
+    def __init__(self):
+        self.standings = []
+
+    def points_for_team(self, team: Team) -> LeaguePoints | None:
+        for lp in self.standings:
+            if lp.team == team:
+                return lp
+        return None
+
+    def update_with_result(self, result: Result):
+        league_points = LeaguePoints.calculate_for_result(result)
+        for lp in league_points:
+            existing = self.points_for_team(lp.team)
+            if existing:
+                existing.points += lp.points
+            else:
+                self.standings.append(lp)
+        self.standings.sort(key=lambda lp: lp.points, reverse=True)
+
+

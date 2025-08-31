@@ -1,4 +1,4 @@
-from rankedleague.rankedleague.domain import Team, Result, LeaguePoints
+from rankedleague.rankedleague.domain import Team, Result, LeaguePoints, LeagueTable
 
 def test_team_init():
     team = Team("Lions")
@@ -114,4 +114,65 @@ def test_result_league_points_draw():
     league_points = LeaguePoints.calculate_for_result(result)
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
+
+def test_init_league_table ():
+    league_table = LeagueTable()
+    assert len(league_table.standings) == 0
+
+def test_league_table_update_with_first_result():
+    league_table = LeagueTable()
+    team1 = Team("Lions")
+    team2 = Team("Grouches")
+    result = Result(team1, 3, team2, 1)
+
+    league_table.update_with_result(result)
+
+    assert len(league_table.standings) == 2
+    assert league_table.points_for_team(team1).points == 3
+    assert league_table.points_for_team(team2).points == 0
+    
+
+def test_league_table_update_with_multiple_teams_results():
+    league_table = LeagueTable()
+    lions = Team("Lions")
+    snakes = Team("Snakes")
+    tarantulas = Team("Tarantulas")
+    awesome = Team("FC Awesome")
+
+    grouches = Team("Grouches")
+
+    result1 = Result(lions, 3, snakes, 3)
+    
+    league_table.update_with_result(result1)
+
+    assert len(league_table.standings) == 2
+    assert league_table.points_for_team(lions).points == 1
+    assert league_table.points_for_team(snakes).points == 1
+
+    result2 = Result(tarantulas, 1, awesome, 0)
+    league_table.update_with_result(result2)
+    assert len(league_table.standings) == 4
+    assert league_table.points_for_team(tarantulas).points == 3
+    assert league_table.points_for_team(awesome).points == 0
+    assert league_table.standings[0].team == tarantulas
+    assert league_table.standings[-1].team == awesome
+
+def test_league_table_update_with_team_already_in_table():
+    league_table = LeagueTable()
+    lions = Team("Lions")
+    snakes = Team("Snakes")
+
+    result1 = Result(lions, 3, snakes, 1)
+    league_table.update_with_result(result1)
+
+    assert len(league_table.standings) == 2
+    assert league_table.points_for_team(lions).points == 3
+    assert league_table.points_for_team(snakes).points == 0
+
+    result2 = Result(lions, 2, snakes, 2)
+    league_table.update_with_result(result2)
+
+    assert len(league_table.standings) == 2
+    assert league_table.points_for_team(lions).points == 4
+    assert league_table.points_for_team(snakes).points == 1
 
