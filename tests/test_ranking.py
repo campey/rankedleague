@@ -51,3 +51,11 @@ def test_result_draw():
     result = Result(team1, 2, team2, 2)
     assert result.winner() is None 
 
+def test_result_negative_score():
+    team1 = Team("Lions")
+    team2 = Team("Grouches")
+    try: 
+        result = Result(team1, -1, team2, 2)
+        assert False, "Expected ValueError for negative score"
+    except ValueError:
+        pass
