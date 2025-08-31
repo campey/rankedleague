@@ -41,14 +41,6 @@ class Result:
             return self.team2
         else:
             return None
-    
-    def league_points(self):
-        winner = self.winner()
-        if winner:
-            return (LeaguePoints(winner, 3), LeaguePoints(self.loser(), 0))
-        else:
-            return (LeaguePoints(self.team1, 1), LeaguePoints(self.team2, 1))
-            
 
         
 class LeaguePoints:
@@ -60,4 +52,12 @@ class LeaguePoints:
         if not isinstance(value, LeaguePoints):
             return False
         return self.team == value.team and self.points == value.points
+    
+    def calculate_for_result(result: Result) -> tuple['LeaguePoints', 'LeaguePoints']:
+        winner = result.winner()
+        if winner:
+            return (LeaguePoints(winner, 3), LeaguePoints(result.loser(), 0))
+        else:
+            return (LeaguePoints(result.team1, 1), LeaguePoints(result.team2, 1))           
+
     

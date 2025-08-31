@@ -89,7 +89,7 @@ def test_result_league_points_home_win():
     team1_expected_points = LeaguePoints(team1, 3)
     team2_expected_points = LeaguePoints(team2, 0)
 
-    league_points = result.league_points()
+    league_points = LeaguePoints.calculate_for_result(result)
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
 
@@ -100,7 +100,7 @@ def test_result_league_points_away_win():
     team1_expected_points = LeaguePoints(team1, 0)
     team2_expected_points = LeaguePoints(team2, 3)
 
-    league_points = result.league_points()
+    league_points = LeaguePoints.calculate_for_result(result)
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
 
@@ -111,7 +111,7 @@ def test_result_league_points_draw():
     team1_expected_points = LeaguePoints(team1, 1)
     team2_expected_points = LeaguePoints(team2, 1)
 
-    league_points = result.league_points()
+    league_points = LeaguePoints.calculate_for_result(result)
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
 
