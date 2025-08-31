@@ -1,4 +1,5 @@
-from rankedleague.rankedleague.domain import Team, Result, LeaguePoints, LeagueTable
+import pytest
+from rankedleague.rankedleague.domain import Team, Result, ResultsFile, LeaguePoints, LeagueTable
 
 def test_team_init():
     team = Team("Lions")
@@ -176,3 +177,30 @@ def test_league_table_update_with_team_already_in_table():
     assert league_table.points_for_team(lions).points == 4
     assert league_table.points_for_team(snakes).points == 1
 
+def test_read_results_from_empty_file():
+    results_file_name = "tests/test_results_empty.txt"
+    results_file = ResultsFile(results_file_name)
+    results = list(results_file)
+    assert len(results) == 0
+
+def test_read_results_from_example_file():
+    results_file_name = "tests/test_results_example.txt"
+    results_file = ResultsFile(results_file_name)
+    results = list(results_file)
+    assert len(results) == 5
+
+    expected_results = [
+        Result(Team("Lions"), 3, Team("Snakes"), 3),
+        Result(Team("Tarantulas"), 1, Team("FC Awesome"), 0),
+        Result(Team("Lions"), 1, Team("FC Awesome"), 1),
+        Result(Team("Tarantulas"), 3, Team("Snakes"), 1),
+        Result(Team("Lions"), 4, Team("Grouches"), 0),
+    ]
+
+    for expected, actual in zip(expected_results, results):
+        assert expected.team1 == actual.team1
+        assert expected.score1 == actual.score1
+        assert expected.team2 == actual.team2
+        assert expected.score2 == actual.score2
+    
+    

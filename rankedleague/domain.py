@@ -1,3 +1,5 @@
+from typing import List
+
 class Team:
     def __init__(self, name: str):
         self.name = name
@@ -42,10 +44,39 @@ class Result:
         else:
             return None
 
-        
+class ResultsFile():
+    def __init__(self, filepath: str):
+        self.filepath = filepath
+        self.results = self._read_results()
+    
+    def __iter__(self):
+        return self.results.__iter__()
+
+    def _read_results(self) -> List[Result]:
+        results = []
+        with open(self.filepath, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line:
+                    team1_part, team2_part = line.split(',')
+                    team1_name, score1_str = team1_part.rsplit(' ', 1)
+                    team2_name, score2_str = team2_part.rsplit(' ', 1)
+                    team1 = Team(team1_name.strip())
+                    score1 = int(score1_str.strip())
+                    team2 = Team(team2_name.strip())
+                    score2 = int(score2_str.strip())
+                    result = Result(team1, score1, team2, score2)
+                    results.append(result)
+        return results
+                
+    
+
+
+
+
 class LeaguePoints:
-    def __init__(self, Team: Team, points: int):
-        self.team = Team
+    def __init__(self, team: Team, points: int):
+        self.team = team
         self.points = points
     
     def __eq__(self, value):
@@ -63,7 +94,7 @@ class LeaguePoints:
 
 class LeagueTable:
     def __init__(self):
-        self.standings = []
+        self.standings: List[LeaguePoints] = []
 
     def points_for_team(self, team: Team) -> LeaguePoints | None:
         for lp in self.standings:
@@ -80,5 +111,4 @@ class LeagueTable:
             else:
                 self.standings.append(lp)
         self.standings.sort(key=lambda lp: lp.points, reverse=True)
-
 
