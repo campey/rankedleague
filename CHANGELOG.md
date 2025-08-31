@@ -15,8 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.2] - 2025-08-31
  * create Result model
 
-## Todo
+## WIP
  * Calculate league points for result
+
+## Todo
  * League table, adding results, ordering
  * Results from file
  * League table to file
