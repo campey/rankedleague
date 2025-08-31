@@ -23,10 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * secondary alpha sort
 
 ## WIP
- * None
+ * CLI
 
 ## Todo
- * CLI
+ None
 
 ## Maybes
  * also support stdin/stdout
+ * refactor to have LeagueTable to have updateresults taking in a list
