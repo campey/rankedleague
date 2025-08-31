@@ -12,9 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * start with a simple `Team` model in `domain.py` (DDD, no naked primitives), with hashing and equality so we can use it later
  * set up pytest, a few tests on the `Team` model, starting with 100% coverage 
 
+## [0.0.2] - 2025-08-31
+ * create Result model
+
 ## Todo
- * Result type, (score type?)
  * Calculate league points for result
  * League table, adding results, ordering
  * Results from file
  * League table to file
+
+## Maybes
+ * also support stdin/stdout

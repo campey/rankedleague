@@ -57,5 +57,6 @@ def test_result_negative_score():
     try: 
         result = Result(team1, -1, team2, 2)
         assert False, "Expected ValueError for negative score"
-    except ValueError:
-        pass
+    except ValueError as e:
+        assert str(e) == "Scores must be non-negative"
+

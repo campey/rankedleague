@@ -16,6 +16,8 @@ class Team:
 
 class Result:
     def __init__(self, team1: Team, score1: int, team2: Team, score2: int):
+        if score1 < 0 or score2 < 0:
+            raise ValueError("Scores must be non-negative") 
         self.team1 = team1
         self.score1 = score1
         self.team2 = team2
