@@ -1,4 +1,5 @@
 import pytest
+import os
 from rankedleague.rankedleague.domain import Team, Result, ResultsFile, LeaguePoints, LeagueTable
 
 def test_team_init():
@@ -203,4 +204,40 @@ def test_read_results_from_example_file():
         assert expected.team2 == actual.team2
         assert expected.score2 == actual.score2
     
-    
+def test_write_league_table_to_file():
+    league_table = LeagueTable()
+    lions = Team("Lions")
+    snakes = Team("Snakes")
+    tarantulas = Team("Tarantulas")
+    awesome = Team("FC Awesome")
+    grouches = Team("Grouches")
+
+    results = [
+        Result(lions, 3, snakes, 3),
+        Result(tarantulas, 1, awesome, 0),
+        Result(lions, 1, awesome, 1),
+        Result(tarantulas, 3, snakes, 1),
+        Result(lions, 4, grouches, 0),
+    ]
+
+    for result in results:
+        league_table.update_with_result(result)
+
+    output_file_name = "tests/test_league_output.txt"
+    if os.path.exists(output_file_name):
+        os.remove(output_file_name)
+
+    LeagueTable.write_to_file(league_table, output_file_name)
+
+    with open(output_file_name, 'r') as file:
+        lines = file.readlines()
+
+    expected_lines = [
+        "1. Tarantulas, 6 pts\n",
+        "2. Lions, 5 pts\n",
+        "3. FC Awesome, 1 pt\n",
+        "4. Snakes, 1 pt\n",
+        "5. Grouches, 0 pts\n",
+    ]
+
+    assert lines == expected_lines

@@ -17,12 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * calculate LeaguePoints for Result
  * League table, adding results, ordering
 
+## [0.0.3] - 2025-08-31
+ * Results from file
+ * League table to file
+ * secondary alpha sort
+
 ## WIP
  * None
 
 ## Todo
- * Results from file
- * League table to file
+ * CLI
 
 ## Maybes
  * also support stdin/stdout

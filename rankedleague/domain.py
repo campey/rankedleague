@@ -110,5 +110,11 @@ class LeagueTable:
                 existing.points += lp.points
             else:
                 self.standings.append(lp)
-        self.standings.sort(key=lambda lp: lp.points, reverse=True)
+        self.standings.sort(key=lambda lp: (-lp.points, lp.team.name)) # Sort by points desc, then name asc
+
+    def write_to_file(league_table: 'LeagueTable', filepath: str):
+        with open(filepath, 'w') as file:
+            for idx, lp in enumerate(league_table.standings):
+                point_unit = "pt" if lp.points == 1 else "pts"
+                file.write(f"{idx + 1}. {lp.team.name}, {lp.points} {point_unit}\n")
 
