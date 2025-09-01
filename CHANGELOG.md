@@ -22,8 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * League table to file
  * secondary alpha sort
 
+## [0.1.0] - 2025-08-31
+ * CLI, pip installable
+
 ## WIP
- * CLI
+ None
 
 ## Todo
  None
@@ -31,3 +34,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Maybes
  * also support stdin/stdout
  * refactor to have LeagueTable to have updateresults taking in a list
+   good first issue, if you want to contribute :) 

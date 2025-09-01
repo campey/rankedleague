@@ -13,7 +13,13 @@ pip install -r requirements.txt
 pytest --cov=rankedleague
 
 ## CLI help
-python -m rankedleague.cli --help
+Install with pip, either
+a) in dev mode, which links here and auto-updates:
+   pip install -e .
+b) prod install to site-packages
+   pip install . 
 
-## CLI example
-python -m rankedleague.cli tests/test_results_example.txt
+rankedleague --help
+rankedleague tests/test_results_example.txt league_table.txt
+
+
