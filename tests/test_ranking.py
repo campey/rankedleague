@@ -9,17 +9,20 @@ def test_team_init():
 
 def test_team_equality():
     team1 = Team("Lions")
-    team2 = Team("Lions")    
+    team2 = Team("Lions")
     assert team1 == team2
-    
+
+
 def test_team_inequality():
-    team1 = Team("Lions")   
+    team1 = Team("Lions")
     team3 = Team("Grouches")
     assert team1 != team3
+
 
 def test_team_not_equals_string():
     team1 = Team("Lions")
     assert team1 != "NotATeam"
+
 
 def test_team_hash():
     team1 = Team("Lions")
@@ -29,11 +32,13 @@ def test_team_hash():
     assert team2 in team_set
     assert len(team_set) == 2
 
+
 def test_result_constructor():
     team1 = Team("Lions")
     team2 = Team("Grouches")
     result = Result(team1, 3, team2, 1)
     assert repr(result) == "Result(Team(Lions) 3, Team(Grouches) 1)"
+
 
 def test_result_home_winner():
     team1 = Team("Lions")
@@ -41,23 +46,26 @@ def test_result_home_winner():
     result = Result(team1, 3, team2, 1)
     assert result.winner() == team1
 
+
 def test_result_away_winner():
     team1 = Team("Lions")
     team2 = Team("Grouches")
     result = Result(team1, 1, team2, 4)
     assert result.winner() == team2
 
+
 def test_result_draw():
     team1 = Team("Lions")
     team2 = Team("Grouches")
     result = Result(team1, 2, team2, 2)
-    assert result.winner() is None 
+    assert result.winner() is None
     assert result.loser() is None
+
 
 def test_result_negative_score():
     team1 = Team("Lions")
     team2 = Team("Grouches")
-    try: 
+    try:
         result = Result(team1, -1, team2, 2)
         assert False, "Expected ValueError for negative score"
     except ValueError as e:
@@ -71,11 +79,13 @@ def test_league_points_equality():
     lp3 = LeaguePoints(team1, 0)
     assert lp1 == lp2
 
+
 def test_league_points_inequality():
-    team1 = Team("Lions")   
+    team1 = Team("Lions")
     lp1 = LeaguePoints(team1, 3)
-    lp2 = LeaguePoints(team1, 0)    
-    assert lp1 != lp2  
+    lp2 = LeaguePoints(team1, 0)
+    assert lp1 != lp2
+
 
 def test_league_points_not_the_same_as_result():
     team1 = Team("Lions")
@@ -83,6 +93,7 @@ def test_league_points_not_the_same_as_result():
     team2 = Team("Grouches")
     result = Result(team1, 3, team2, 1)
     assert lp1 != result
+
 
 def test_result_league_points_home_win():
     team1 = Team("Lions")
@@ -95,6 +106,7 @@ def test_result_league_points_home_win():
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
 
+
 def test_result_league_points_away_win():
     team1 = Team("Lions")
     team2 = Team("Grouches")
@@ -105,6 +117,7 @@ def test_result_league_points_away_win():
     league_points = LeaguePoints.calculate_for_result(result)
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
+
 
 def test_result_league_points_draw():
     team1 = Team("Lions")
@@ -117,9 +130,11 @@ def test_result_league_points_draw():
     assert team1_expected_points in league_points
     assert team2_expected_points in league_points
 
-def test_init_league_table ():
+
+def test_init_league_table():
     league_table = LeagueTable()
     assert len(league_table.standings) == 0
+
 
 def test_league_table_update_with_first_result():
     league_table = LeagueTable()
@@ -132,7 +147,7 @@ def test_league_table_update_with_first_result():
     assert len(league_table.standings) == 2
     assert league_table.points_for_team(team1).points == 3
     assert league_table.points_for_team(team2).points == 0
-    
+
 
 def test_league_table_update_with_multiple_teams_results():
     league_table = LeagueTable()
@@ -144,7 +159,7 @@ def test_league_table_update_with_multiple_teams_results():
     grouches = Team("Grouches")
 
     result1 = Result(lions, 3, snakes, 3)
-    
+
     league_table.update_with_result(result1)
 
     assert len(league_table.standings) == 2
@@ -158,6 +173,7 @@ def test_league_table_update_with_multiple_teams_results():
     assert league_table.points_for_team(awesome).points == 0
     assert league_table.standings[0].team == tarantulas
     assert league_table.standings[-1].team == awesome
+
 
 def test_league_table_update_with_team_already_in_table():
     league_table = LeagueTable()
@@ -178,11 +194,13 @@ def test_league_table_update_with_team_already_in_table():
     assert league_table.points_for_team(lions).points == 4
     assert league_table.points_for_team(snakes).points == 1
 
+
 def test_read_results_from_empty_file():
     results_file_name = "tests/test_results_empty.txt"
     results_file = ResultsFile(results_file_name)
     results = list(results_file)
     assert len(results) == 0
+
 
 def test_read_results_from_example_file():
     results_file_name = "tests/test_results_example.txt"
@@ -203,7 +221,8 @@ def test_read_results_from_example_file():
         assert expected.score1 == actual.score1
         assert expected.team2 == actual.team2
         assert expected.score2 == actual.score2
-    
+
+
 def test_write_league_table_to_file():
     league_table = LeagueTable()
     lions = Team("Lions")

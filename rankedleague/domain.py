@@ -11,15 +11,15 @@ class Team:
 
     def __hash__(self):
         return hash(self.name)
-    
+
     def __repr__(self):
         return f"Team({self.name})"
-    
+
 
 class Result:
     def __init__(self, team1: Team, score1: int, team2: Team, score2: int):
         if score1 < 0 or score2 < 0:
-            raise ValueError("Scores must be non-negative") 
+            raise ValueError("Scores must be non-negative")
         self.team1 = team1
         self.score1 = score1
         self.team2 = team2
@@ -27,7 +27,7 @@ class Result:
 
     def __repr__(self):
         return f"Result({self.team1} {self.score1}, {self.team2} {self.score2})"
-    
+
     def winner(self):
         if self.score1 > self.score2:
             return self.team1
@@ -35,8 +35,8 @@ class Result:
             return self.team2
         else:
             return None
-        
-    def loser(self): #todo: refactor to remove duplication with winner()
+
+    def loser(self):  # todo: refactor to remove duplication with winner()
         if self.score1 < self.score2:
             return self.team1
         elif self.score2 < self.score1:
@@ -44,11 +44,12 @@ class Result:
         else:
             return None
 
-class ResultsFile():
+
+class ResultsFile:
     def __init__(self, filepath: str):
         self.filepath = filepath
         self.results = self._read_results()
-    
+
     def __iter__(self):
         return self.results.__iter__()
 
@@ -77,28 +78,24 @@ class ResultsFile():
                     result = Result(team1, score1, team2, score2)
                     results.append(result)
         return results
-                
-    
-
-
 
 
 class LeaguePoints:
     def __init__(self, team: Team, points: int):
         self.team = team
         self.points = points
-    
+
     def __eq__(self, value):
         if not isinstance(value, LeaguePoints):
             return False
         return self.team == value.team and self.points == value.points
-    
+
     def calculate_for_result(result: Result) -> tuple['LeaguePoints', 'LeaguePoints']:
         winner = result.winner()
         if winner:
             return (LeaguePoints(winner, 3), LeaguePoints(result.loser(), 0))
         else:
-            return (LeaguePoints(result.team1, 1), LeaguePoints(result.team2, 1))           
+            return (LeaguePoints(result.team1, 1), LeaguePoints(result.team2, 1))
 
 
 class LeagueTable:
@@ -119,7 +116,7 @@ class LeagueTable:
                 existing.points += lp.points
             else:
                 self.standings.append(lp)
-        self.standings.sort(key=lambda lp: (-lp.points, lp.team.name)) # Sort by points desc, then name asc
+        self.standings.sort(key=lambda lp: (-lp.points, lp.team.name))  # Sort by points desc, then name asc
 
     def write_to_file(league_table: 'LeagueTable', filepath: str):
         with open(filepath, 'w') as file:
