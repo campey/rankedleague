@@ -30,6 +30,20 @@ b) prod install to site-packages
 ```
 
 ### Usage
-`rankedleague --help`
+```
+> rankedleague --help
+
+Usage: rankedleague [OPTIONS] INPUT_FILE OUTPUT_FILE
+
+  Processes league results from input_file, generate league table into
+  output_file.
+
+  input_file should contain match results in the format: Team A 1, Team B 2
+
+Options:
+  --help  Show this message and exit.
+```
+
+e.g.
 `rankedleague tests/test_results_example.txt league_table.txt`
 
