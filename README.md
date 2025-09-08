@@ -8,11 +8,12 @@ Example of a league ranking script, building in small steps to show an evolution
 To be able to run tests need to setup venv & install deps
 
 1. `python -m venv venv`
-2. `.\venv\Scripts\activate`
+2. On Windows: `.\venv\Scripts\activate`, on mac/linux: `source ./venv/bin/activate`
 3. `pip install -r requirements.txt`
 
 ### Running Tests
 `pytest --cov=rankedleague`
+Note: the installation below must have been run for the `test_installation` tests to pass.
 
 ## CLI
 
